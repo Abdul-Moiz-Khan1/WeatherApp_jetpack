@@ -22,7 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun weatherPage(modifier: Modifier = Modifier) {
+fun weatherPage(viewModel: weatherViewModel) {
 
     var city by remember {
         mutableStateOf("")
@@ -48,7 +48,9 @@ fun weatherPage(modifier: Modifier = Modifier) {
                 label = {
                     Text(text = "Search")
                 })
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = {
+                viewModel.getData(city)
+            }) {
                 Icon(imageVector = Icons.Default.Search, contentDescription = "Search")
 
             }
