@@ -1,7 +1,6 @@
 package com.example.jetpack_weatherapp.Api
 
 data class Current(
-    val air_quality: AirQuality,
     val cloud: Int,
     val condition: Condition,
     val dewpoint_c: Double,
