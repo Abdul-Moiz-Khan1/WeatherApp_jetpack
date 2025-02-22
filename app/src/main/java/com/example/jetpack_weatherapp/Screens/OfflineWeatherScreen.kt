@@ -86,7 +86,7 @@ fun OfflineWeatherScreen(dbInstance: ResponseDatabase, viewModel: weatherViewMod
     if (result == null) {
         CircularProgressIndicator()
     } else {
-
+ 
         val calendar = Calendar.getInstance()
         val dateFormat = SimpleDateFormat("EEEE", Locale.getDefault()) // "EEEE" gives full day name
         val day = dateFormat.format(calendar.time)
