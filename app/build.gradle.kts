@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("kotlin-kapt")
+
 }
 
 android {
@@ -71,5 +73,22 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.retrofit2.converter.gson)
     implementation(libs.androidx.runtime.livedata)
+
+    implementation(libs.coil.kt.coil.compose)
+
+    val nav_version = "2.8.7"
+
+    implementation("androidx.navigation:navigation-compose:$nav_version")
+    implementation ("com.airbnb.android:lottie-compose:6.6.2")
+
+    implementation("com.google.android.gms:play-services-location:21.0.1")
+
+    implementation ("androidx.room:room-runtime:2.6.1")
+    kapt ("androidx.room:room-compiler:2.6.1")
+
+    implementation ("com.google.code.gson:gson:2.10.1")
+
+
+
 
 }
