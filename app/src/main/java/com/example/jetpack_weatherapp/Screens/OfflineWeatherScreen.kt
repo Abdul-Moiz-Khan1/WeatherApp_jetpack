@@ -2,6 +2,7 @@ package com.example.jetpack_weatherapp.Screens
 
 import android.annotation.SuppressLint
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -38,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -51,6 +53,7 @@ import com.example.jetpack_weatherapp.HourlyModel
 import com.example.jetpack_weatherapp.R
 import com.example.jetpack_weatherapp.roomDB.ResponseDatabase
 import com.example.jetpack_weatherapp.roomDB.SavedResponse
+import com.example.jetpack_weatherapp.viewModel.weatherViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -64,8 +67,9 @@ import java.util.Locale
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-fun OfflineWeatherScreen(dbInstance: ResponseDatabase) {
+fun OfflineWeatherScreen(dbInstance: ResponseDatabase, viewModel: weatherViewModel) {
 
+    val context = LocalContext.current
     var result by remember {
         mutableStateOf<SavedResponse?>(null)
     }
@@ -274,6 +278,35 @@ fun OfflineWeatherScreen(dbInstance: ResponseDatabase) {
 
             )
 
+        Row(
+            modifier = Modifier,
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+
+            )
+        {
+            Text(
+                text = "Last Updated: ${result!!.lastUpdated.drop(5).replace("-", "/")}",
+                modifier = Modifier
+                    .wrapContentWidth()
+                    .padding(top = 2.dp),
+                textAlign = TextAlign.Center,
+                color = Color.White,
+            )
+            IconButton(onClick = {
+                viewModel.getData(result!!.city)
+            }) {
+                Icon(
+                    Icons.Default.Refresh,
+                    contentDescription = null,
+                    tint = Color.White,
+                    modifier = Modifier.size(28.dp)
+                )
+
+            }
+
+        }
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -290,7 +323,7 @@ fun OfflineWeatherScreen(dbInstance: ResponseDatabase) {
                             color = Color.White,
                             modifier = Modifier
                                 .fillMaxSize()
-                                .padding(top = 26.dp),
+                                .padding(top = 2.dp),
                             fontWeight = FontWeight.ExtraBold,
                             textAlign = TextAlign.Center
                         )
@@ -429,21 +462,6 @@ fun OfflineWeatherScreen(dbInstance: ResponseDatabase) {
                         FutureItemsView(items = it)
                     }
                 }
-
-            }
-            Row(modifier = Modifier.fillMaxWidth(1f)) {
-                Text(
-                    text = "Last Updated:${result!!.lastUpdated.drop(5)}",
-                    modifier = Modifier.wrapContentWidth()
-                        .padding(top = 2.dp),
-                    textAlign = TextAlign.Center,
-                    color = Color.White,
-                )
-                IconButton(onClick = {  }) {
-                    Icon(Icons.Default.Refresh, contentDescription = null , tint = Color.White , modifier = Modifier )
-
-                }
-
             }
         }
     }

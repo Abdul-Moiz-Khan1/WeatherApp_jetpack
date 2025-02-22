@@ -51,7 +51,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 
-
 @Composable
 fun search(viewModel: weatherViewModel) {
 
@@ -122,7 +121,7 @@ fun search(viewModel: weatherViewModel) {
 
             is networkResponse.Error -> {
                 visible = 1
-                OfflineWeatherScreen(dbInstance = dbInstance)
+               OfflineWeatherScreen(dbInstance = dbInstance, viewModel)
             }
 
             networkResponse.Loading -> {
@@ -175,8 +174,8 @@ fun saveData(data: weatherModel, dbInstance: ResponseDatabase) {
 
         lastUpdated = data.current.last_updated,
         city = data.location.name,
-        currentCondition =  data.current.condition.text,
-        currentConditionPic =  data.current.condition.text,
+        currentCondition = data.current.condition.text,
+        currentConditionPic = data.current.condition.text,
         currentTemp = data.current.temp_c.toInt(),
         currentHighTemp = data.forecast.forecastday[0].day.maxtemp_c.toInt(),
         currentLowTemp = data.forecast.forecastday[0].day.mintemp_c.toInt(),

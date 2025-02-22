@@ -266,7 +266,7 @@ fun WeatherScreen(networkResponse: weatherModel, dbInstance: ResponseDatabase) {
                         color = Color.White,
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(top = 12.dp),
+                            .padding(top =12.dp),
                         fontWeight = FontWeight.ExtraBold,
                         textAlign = TextAlign.Center
                     )
@@ -489,7 +489,7 @@ fun DailyModelViewHolder(model: HourlyModel) {
         )
         if(model.picPath == "sunny"){
             AsyncImage(
-                model = "sunny",
+                model = R.drawable.sunny,
                 contentDescription = null,
                 modifier = Modifier
                     .size(45.dp),
