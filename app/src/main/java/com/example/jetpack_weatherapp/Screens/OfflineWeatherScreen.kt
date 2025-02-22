@@ -466,6 +466,3 @@ fun OfflineWeatherScreen(dbInstance: ResponseDatabase, viewModel: weatherViewMod
         }
     }
 }
-
-
-

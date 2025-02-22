@@ -1,6 +1,7 @@
 package com.example.jetpack_weatherapp.viewModel
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,7 +17,6 @@ import kotlinx.coroutines.launch
 
 
 class weatherViewModel : ViewModel() {
-
 
     private val weatherapi = retrofitInstance.weatherapi
     private val _weatherResponse = MutableLiveData<networkResponse<weatherModel>>()
