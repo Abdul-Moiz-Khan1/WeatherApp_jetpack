@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -66,7 +67,7 @@ fun search(viewModel: weatherViewModel) {
         mutableStateOf("")
     }
     var visible by remember {
-        mutableStateOf(0)
+        mutableIntStateOf(0)
     }
 
     val weatherResult = viewModel.weatherResponse.observeAsState()
