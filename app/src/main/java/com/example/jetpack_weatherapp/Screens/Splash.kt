@@ -65,6 +65,7 @@ fun Splash(viewModel: weatherViewModel, navController: NavController) {
                 Log.d("Location", "Lat: ${viewModel.lat}, Lon: ${viewModel.long}")
                 // Fetch weather data after getting location
                 viewModel.getData("${viewModel.lat},${viewModel.long}")
+
             }
         }
 

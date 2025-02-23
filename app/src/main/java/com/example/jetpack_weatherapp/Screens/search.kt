@@ -77,7 +77,8 @@ fun search(viewModel: weatherViewModel) {
             .fillMaxWidth()
             .padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+    )
+    {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -122,7 +123,7 @@ fun search(viewModel: weatherViewModel) {
 
             is networkResponse.Error -> {
                 visible = 1
-               OfflineWeatherScreen(dbInstance = dbInstance, viewModel)
+                OfflineWeatherScreen(dbInstance = dbInstance, viewModel)
             }
 
             networkResponse.Loading -> {
@@ -139,10 +140,14 @@ fun search(viewModel: weatherViewModel) {
 
             null -> {}
         }
+
+        if (visible == 0 &&  (viewModel.lat.isEmpty() || viewModel.long.isEmpty())) {
+            OfflineWeatherScreen(dbInstance = dbInstance, viewModel = viewModel)
+        }else {
+            noLocation()
+        }
     }
-    if (visible == 0) {
-        noLocation()
-    }
+
 }
 
 @Composable
