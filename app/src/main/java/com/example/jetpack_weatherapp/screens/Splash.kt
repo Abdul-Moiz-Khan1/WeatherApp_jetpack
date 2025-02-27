@@ -1,4 +1,4 @@
-package com.example.jetpack_weatherapp.Screens
+package com.example.jetpack_weatherapp.screens
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -8,7 +8,6 @@ import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,6 +20,8 @@ import com.example.jetpack_weatherapp.R
 import com.example.jetpack_weatherapp.viewModel.weatherViewModel
 import com.google.android.gms.location.*
 import kotlinx.coroutines.delay
+
+var goOffline: Boolean = false
 
 @Composable
 fun Splash(viewModel: weatherViewModel, navController: NavController) {
@@ -41,6 +42,7 @@ fun Splash(viewModel: weatherViewModel, navController: NavController) {
             getLocation(context) { lat, lon ->
                 viewModel.lat = lat.toString()
                 viewModel.long = lon.toString()
+                goOffline = true
                 locationFetched = true
                 Log.d("Location", "Lat: ${viewModel.lat}, Lon: ${viewModel.long}")
                 // Fetch weather data after getting location
@@ -55,25 +57,27 @@ fun Splash(viewModel: weatherViewModel, navController: NavController) {
         ) == PackageManager.PERMISSION_GRANTED
 
         if (!granted) {
+            Log.d("Location", "Not granted")
             permissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
         } else {
+            Log.d("Location", "granted")
             permissionGranted = true
             getLocation(context) { lat, lon ->
                 viewModel.lat = lat.toString()
                 viewModel.long = lon.toString()
+                goOffline = true
                 locationFetched = true
                 Log.d("Location", "Lat: ${viewModel.lat}, Lon: ${viewModel.long}")
-                // Fetch weather data after getting location
                 viewModel.getData("${viewModel.lat},${viewModel.long}")
-
             }
-        }
 
-        delay(3500) // Wait for splash animation
+        }
+        delay(3800) // Wait for splash animation
         isVisible = false
         navController.navigate("home") {
             popUpTo("splash") { inclusive = true } // Removes splash from backstack
         }
+
     }
 
     if (isVisible) {
@@ -89,17 +93,20 @@ fun Splash(viewModel: weatherViewModel, navController: NavController) {
 
 @SuppressLint("MissingPermission")
 fun getLocation(context: Context, onLocationReceived: (Double, Double) -> Unit) {
+    Log.d("Location", "in get location")
     val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
-
-    if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) !=
+    if (ContextCompat.checkSelfPermission(
+            context,
+            android.Manifest.permission.ACCESS_FINE_LOCATION
+        ) !=
         PackageManager.PERMISSION_GRANTED
     ) {
         Log.e("Location", "Permission not granted")
         return
     }
-
     fusedLocationProviderClient.lastLocation.addOnSuccessListener { location: Location? ->
         location?.let {
+            Log.d("Location", "got it ${it.latitude}")
             onLocationReceived(it.latitude, it.longitude)
         }
     }.addOnFailureListener {

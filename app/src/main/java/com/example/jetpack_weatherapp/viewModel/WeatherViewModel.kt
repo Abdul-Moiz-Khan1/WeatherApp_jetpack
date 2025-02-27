@@ -27,13 +27,14 @@ class weatherViewModel : ViewModel() {
 
     fun getData(city: String) {
         _weatherResponse.value = networkResponse.Loading
+        Log.d("respond", "into func get data")
         viewModelScope.launch {
             try {
                 val response = weatherapi.getWeather(Constants.apiKey, city, 7)
                 if (response.isSuccessful) {
                     response.body()?.let {
                         _weatherResponse.value = networkResponse.Success(it)
-                        Log.d("reponsed", _weatherResponse.value.toString())
+                        Log.d("respond", _weatherResponse.value.toString())
                     }
                 } else {
                     _weatherResponse.value = networkResponse.Error("failed to load Data")

@@ -4,25 +4,19 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.jetpack_weatherapp.Api.networkResponse
-import com.example.jetpack_weatherapp.Api.weatherModel
-import com.example.jetpack_weatherapp.Screens.Splash
-import com.example.jetpack_weatherapp.Screens.WeatherScreen
-import com.example.jetpack_weatherapp.Screens.search
+import com.example.jetpack_weatherapp.screens.Splash
+import com.example.jetpack_weatherapp.screens.search
 import com.example.jetpack_weatherapp.ui.theme.Jetpack_weatherAppTheme
 import com.example.jetpack_weatherapp.viewModel.weatherViewModel
 

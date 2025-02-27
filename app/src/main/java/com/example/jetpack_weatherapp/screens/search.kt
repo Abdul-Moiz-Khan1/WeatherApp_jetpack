@@ -1,4 +1,4 @@
-package com.example.jetpack_weatherapp.Screens
+package com.example.jetpack_weatherapp.screens
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
@@ -35,9 +34,6 @@ import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.launch
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.capitalize
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.room.Room
@@ -50,18 +46,30 @@ import com.example.jetpack_weatherapp.viewModel.weatherViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import androidx.compose.runtime.rememberCoroutineScope
 
-
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun search(viewModel: weatherViewModel) {
 
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+
+    var dbResult by remember {
+        mutableStateOf<SavedResponse?>(null)
+    }
 
     val dbInstance = Room.databaseBuilder(
-        context.applicationContext,
-        ResponseDatabase::class.java,
-        "weather_database"
+        context.applicationContext, ResponseDatabase::class.java, "weather_database"
     ).build()
+
+    coroutineScope.launch {
+        val cacheResult = withContext(Dispatchers.IO) {
+            dbInstance.dao().getCacheModelById(0)
+        }
+        dbResult = cacheResult
+    }
+
 
     var city by remember {
         mutableStateOf("")
@@ -77,8 +85,7 @@ fun search(viewModel: weatherViewModel) {
             .fillMaxWidth()
             .padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
-    )
-    {
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -86,22 +93,16 @@ fun search(viewModel: weatherViewModel) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            OutlinedTextField(
-                value = city,
-                onValueChange = {
-                    city = it
-                },
-                label = {
-                    Text(text = "Search", color = Color.White)
-                },
-                textStyle = TextStyle(color = Color.White), // Set text color to white
+            OutlinedTextField(value = city, onValueChange = {
+                city = it
+            }, label = {
+                Text(text = "Search", color = Color.White)
+            }, textStyle = TextStyle(color = Color.White), // Set text color to white
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = Color.White,
                     unfocusedBorderColor = Color.Gray,
                     cursorColor = Color.White
-                ),
-                singleLine = true,
-                maxLines = 1
+                ), singleLine = true, maxLines = 1
             )
             IconButton(onClick = {
                 if (city.isEmpty() || city.isBlank()) {
@@ -123,16 +124,19 @@ fun search(viewModel: weatherViewModel) {
 
             is networkResponse.Error -> {
                 visible = 1
-                OfflineWeatherScreen(dbInstance = dbInstance, viewModel)
+                Log.d("where ", "error")
+                dbResult?.let { OfflineWeatherScreen(it, viewModel) }
             }
 
             networkResponse.Loading -> {
                 visible = 1
+                Log.d("where ", "loading")
                 CircularProgressIndicator()
             }
 
             is networkResponse.Success -> {
                 visible = 1
+                Log.d("where ", "suvvess")
                 saveData(result.data, dbInstance)
                 WeatherScreen(result.data, dbInstance)
                 Log.d("whatthis??", weatherResult.toString())
@@ -141,9 +145,9 @@ fun search(viewModel: weatherViewModel) {
             null -> {}
         }
 
-        if (visible == 0 &&  (viewModel.lat.isEmpty() || viewModel.long.isEmpty())) {
-            OfflineWeatherScreen(dbInstance = dbInstance, viewModel = viewModel)
-        }else {
+        if (visible == 0 && (dbResult?.city?.isNotEmpty() == true)) {
+            OfflineWeatherScreen(dbResult!!, viewModel = viewModel)
+        } else {
             noLocation()
         }
     }
@@ -158,9 +162,7 @@ fun noLocation() {
         verticalArrangement = Arrangement.Center
     ) {
         Image(
-            painterResource(id = R.drawable.nolocationxml),
-            null,
-            modifier = Modifier.size(180.dp)
+            painterResource(id = R.drawable.nolocationxml), null, modifier = Modifier.size(180.dp)
         )
         Text(
             text = "Aww Snap! I dont have your Location\nPlease Search Location",
