@@ -77,9 +77,7 @@ fun Splash(viewModel: weatherViewModel, navController: NavController) {
         navController.navigate("home") {
             popUpTo("splash") { inclusive = true } // Removes splash from backstack
         }
-
     }
-
     if (isVisible) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             LottieAnimation(
