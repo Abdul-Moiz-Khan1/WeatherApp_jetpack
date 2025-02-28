@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -131,7 +132,15 @@ fun search(viewModel: weatherViewModel) {
             networkResponse.Loading -> {
                 visible = 1
                 Log.d("where ", "loading")
-                CircularProgressIndicator()
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center // Centers the content inside the Box
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(50.dp) // No need for fillMaxSize()
+                    )
+                }
+
             }
 
             is networkResponse.Success -> {
