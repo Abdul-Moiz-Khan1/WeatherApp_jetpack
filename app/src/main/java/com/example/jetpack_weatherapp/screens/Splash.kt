@@ -72,7 +72,7 @@ fun Splash(viewModel: weatherViewModel, navController: NavController) {
             }
 
         }
-        delay(3800) // Wait for splash animation
+        delay(3500) // Wait for splash animation
         isVisible = false
         navController.navigate("home") {
             popUpTo("splash") { inclusive = true } // Removes splash from backstack
