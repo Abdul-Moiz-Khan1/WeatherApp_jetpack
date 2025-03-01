@@ -36,9 +36,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jetpack_weatherapp.FutureModel
 import com.example.jetpack_weatherapp.HourlyModel
-import com.example.jetpack_weatherapp.R
 import com.example.jetpack_weatherapp.roomDB.SavedResponse
 import com.example.jetpack_weatherapp.viewModel.weatherViewModel
+import moiz.dev.jetpack_weatherIQ.R
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale

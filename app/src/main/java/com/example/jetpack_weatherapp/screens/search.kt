@@ -40,7 +40,6 @@ import androidx.compose.ui.unit.dp
 import androidx.room.Room
 import com.example.jetpack_weatherapp.Api.networkResponse
 import com.example.jetpack_weatherapp.Api.weatherModel
-import com.example.jetpack_weatherapp.R
 import com.example.jetpack_weatherapp.roomDB.ResponseDatabase
 import com.example.jetpack_weatherapp.roomDB.SavedResponse
 import com.example.jetpack_weatherapp.viewModel.weatherViewModel
@@ -48,6 +47,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import androidx.compose.runtime.rememberCoroutineScope
+import moiz.dev.jetpack_weatherIQ.R
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
