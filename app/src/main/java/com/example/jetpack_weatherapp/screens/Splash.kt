@@ -16,10 +16,10 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import com.airbnb.lottie.compose.*
-import com.example.jetpack_weatherapp.R
 import com.example.jetpack_weatherapp.viewModel.weatherViewModel
 import com.google.android.gms.location.*
 import kotlinx.coroutines.delay
+import moiz.dev.jetpack_weatherIQ.R
 
 var goOffline: Boolean = false
 
@@ -33,7 +33,6 @@ fun Splash(viewModel: weatherViewModel, navController: NavController) {
     var permissionGranted by remember { mutableStateOf(false) }
     var locationFetched by remember { mutableStateOf(false) }
 
-    // 🚀 Permission Request Handler (inside LaunchedEffect)
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
     ) { isGranted ->

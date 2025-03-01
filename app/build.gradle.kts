@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.jetpack_weatherapp"
+    namespace = "moiz.dev.jetpack_weatherIQ"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.jetpack_weatherapp"
+        applicationId = "moiz.dev.jetpack_weatherIQ"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
