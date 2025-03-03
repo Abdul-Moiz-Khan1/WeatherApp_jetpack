@@ -35,8 +35,8 @@ import java.util.Locale
 import com.example.jetpack_weatherapp.Api.weatherModel
 import com.example.jetpack_weatherapp.FutureModel
 import com.example.jetpack_weatherapp.HourlyModel
-import com.example.jetpack_weatherapp.R
 import com.example.jetpack_weatherapp.roomDB.ResponseDatabase
+import moiz.dev.jetpack_weatherIQ.R
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date

@@ -1,4 +1,4 @@
-package com.example.jetpack_weatherapp
+package moiz.dev.jetpack_weatherIQ
 
 import android.os.Bundle
 import android.view.View
